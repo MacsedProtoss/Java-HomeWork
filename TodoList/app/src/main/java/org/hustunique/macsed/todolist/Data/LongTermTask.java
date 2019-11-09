@@ -9,7 +9,7 @@ public class LongTermTask extends Task {
     List<LongTermTask> sonTasks;
     Date endTime;
 
-    LongTermTask(String name, String description,LongTermTask parentTask,Date endTime) {
+    public LongTermTask(String name, String description,LongTermTask parentTask,Date endTime) {
         super(name, description);
         super.type = TaskType.LongTerm;
         this.endTime = endTime;

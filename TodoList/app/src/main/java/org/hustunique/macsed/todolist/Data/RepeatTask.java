@@ -11,7 +11,7 @@ public class RepeatTask extends Task {
     int repeatTime;
 
 
-    RepeatTask(String name, String description,Date startTime,Date endTime,int stride,int repeatTime) {
+    public RepeatTask(String name, String description,Date startTime,Date endTime,int stride,int repeatTime) {
         super(name, description);
         super.type = TaskType.Repeat;
         this.startTime = startTime;
