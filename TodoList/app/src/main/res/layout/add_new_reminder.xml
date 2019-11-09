@@ -32,7 +32,9 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/add_reminder_discription"
-        android:inputType="date|textUri|textShortMessage|textLongMessage|textAutoCorrect|numberSigned|textVisiblePassword|textWebEditText|textMultiLine|textNoSuggestions|textFilter|number|datetime|textWebEmailAddress|textPersonName|text|textPhonetic|textCapSentences|textPassword|textAutoComplete|textImeMultiLine|textPostalAddress|numberDecimal|textEmailAddress|numberPassword|textCapWords|phone|textEmailSubject|textCapCharacters|time|textWebPassword" />
+        android:inputType="textMultiLine"
+        android:minLines="6"/>
+
 
     <Spinner
         android:id="@+id/add_spin"

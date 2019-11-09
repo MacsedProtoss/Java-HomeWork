@@ -99,7 +99,7 @@
         <item>周期事项</item>
         <item>长期事项</item>
     </string-array>
-    <string name="add_reminder_endTime">结束时间</string>
+    <string name="add_reminder_endTime">结束时间(YYYY-MM-DD)</string>
     <string name="add_reminder_repeatTime">重复次数</string>
     <string name="add_reminder_stride">重复间距（天）</string>
     <string name="add_reminder_sub">在创建好任务后，才能创建它的子任务</string>
