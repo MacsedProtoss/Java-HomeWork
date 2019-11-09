@@ -41,10 +41,7 @@ public class DataManager {
 
             switch (task.get("type")){
                 case "Temporary":
-
-                    TemporaryTask temp = gson.fromJson(codeBack,TemporaryTask.class);
-
-                    tasks.add(temp);
+                    tasks.add(gson.fromJson(codeBack,TemporaryTask.class));
                     break;
                 case "Repeat":
                     tasks.add(gson.fromJson(codeBack,RepeatTask.class));
@@ -63,7 +60,7 @@ public class DataManager {
 
 
     public String encodeJson(){
-        
+
         Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         json = null;
         List tempList = new ArrayList();
