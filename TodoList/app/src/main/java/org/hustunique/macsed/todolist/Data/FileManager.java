@@ -56,9 +56,12 @@ public class FileManager {
 
             input.close();
         } catch (FileNotFoundException e) {
+
             e.printStackTrace();
+            return  null;
         } catch (IOException e) {
             e.printStackTrace();
+            return  null;
         }
 
         return sb.toString();

@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.hustunique.macsed.todolist.Data.*;
+
+import java.util.List;
 
 
 public class ScrollingActivity extends AppCompatActivity {
@@ -28,6 +34,21 @@ public class ScrollingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FileManager fileManager = new FileManager();
+        fileManager.setPath(getFilesDir().getPath());
+
+        DataManager dataManager = new DataManager();
+        dataManager.setJson(fileManager.readJson());
+
+        List<Task> listData = dataManager.decodeJson();
+
+        MainListAdapter adapter = new MainListAdapter();
+        adapter.setTasks(listData);
+        adapter.setContext(ScrollingActivity.this);
+
+        ListView listView = (ListView) findViewById(R.id.MainList);
+        listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
