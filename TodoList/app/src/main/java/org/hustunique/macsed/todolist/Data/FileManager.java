@@ -53,7 +53,7 @@ public class FileManager {
             while ((len = input.read(temp)) > 0) {
                 sb.append(new String(temp, 0, len));
             }
-            
+
             input.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
