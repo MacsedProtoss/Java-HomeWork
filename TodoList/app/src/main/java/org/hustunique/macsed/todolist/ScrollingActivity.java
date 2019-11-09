@@ -23,6 +23,11 @@ import android.widget.TextView;
 
 import org.hustunique.macsed.todolist.Data.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,19 +40,19 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FileManager fileManager = new FileManager();
-        fileManager.setPath(getFilesDir().getPath());
+        final FileManager fileManager = new FileManager();
+        fileManager.setPath(getFilesDir().getAbsolutePath());
 
-        DataManager dataManager = new DataManager();
+        final DataManager dataManager = new DataManager();
         dataManager.setJson(fileManager.readJson());
 
-        List<Task> listData = dataManager.decodeJson();
+        final List<Task> listData = dataManager.decodeJson();
 
-        MainListAdapter adapter = new MainListAdapter();
+        final MainListAdapter adapter = new MainListAdapter();
         adapter.setTasks(listData);
         adapter.setContext(ScrollingActivity.this);
 
-        ListView listView = (ListView) findViewById(R.id.MainList);
+        final ListView listView = (ListView) findViewById(R.id.MainList);
         listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -64,18 +69,49 @@ public class ScrollingActivity extends AppCompatActivity {
                 View dialogLayout = inflater.inflate(R.layout.add_new_reminder, null);
                 builder.setView(dialogLayout);
 
-                builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-
-                final AlertDialog dialog = builder.create();
-
                 final Spinner spinner = dialogLayout.findViewById(R.id.add_spin);
+                final EditText nameText = dialogLayout.findViewById(R.id.add_name);
+                final EditText descriptionText = dialogLayout.findViewById(R.id.add_description);
+                final EditText endTimeText = dialogLayout.findViewById(R.id.add_endTime);
                 final EditText repeatTimeText = dialogLayout.findViewById(R.id.add_repeatTime);
                 final EditText strideText = dialogLayout.findViewById(R.id.add_stride);
                 final TextView subText = dialogLayout.findViewById(R.id.add_sub);
+
+                builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (repeatTimeText.getVisibility() == View.VISIBLE){
+                            //MARK : repeat
+                            //RepeatTask newTask = new RepeatTask(nameText.getText().toString(),descriptionText.getText().toString(),Date(),endTimeText.getText().toString());
+                        }else {
+                            if (subText.getVisibility() == View.VISIBLE){
+                                //MARK : longTerm
+                            }else{
+                                //MARK : temporary
+                                String dateString = endTimeText.getText().toString();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date formatedDate = null;
+                                try {
+                                    formatedDate = format.parse(dateString);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                TemporaryTask newTask = new TemporaryTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate);
+                                listData.add(newTask);
+                                dataManager.setTask(listData);
+                                fileManager.writeJson(dataManager.encodeJson());
+                                adapter.setTasks(listData);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+
+
+
+                final AlertDialog dialog = builder.create();
+
+
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -101,6 +137,12 @@ public class ScrollingActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+
+
+
+
 
                 dialog.show();
             }

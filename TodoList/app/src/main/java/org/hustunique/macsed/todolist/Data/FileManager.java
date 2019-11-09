@@ -1,6 +1,7 @@
 package org.hustunique.macsed.todolist.Data;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +18,10 @@ public class FileManager {
     public void setPath(String path) {
         StringBuilder builder = new StringBuilder();
         builder.append(path);
+        Log.d("path",path);
         builder.append("/data.json");
-        this.path = path;
+        this.path = builder.toString();
+        Log.d("path",this.path);
     }
 
     public void writeJson(String json){

@@ -1,6 +1,7 @@
 package org.hustunique.macsed.todolist;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,15 @@ public class MainListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        Log.d("size",""+tasks.size());
+
         return tasks.size();
+
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return tasks.get(position);
     }
 
     @Override
@@ -72,7 +76,6 @@ public class MainListAdapter extends BaseAdapter {
                 break;
 
         }
-        
 
         return convertView;
     }
