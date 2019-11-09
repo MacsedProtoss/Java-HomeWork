@@ -4,9 +4,13 @@ import java.util.Date;
 
 public class TemporaryTask extends Task {
 
-    Date endTime;
+    private Date endTime;
 
-    public TemporaryTask(String name,String description, Date endTime) {
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public TemporaryTask(String name, String description, Date endTime) {
         super(name,description);
         super.type = TaskType.Temporary;
         this.endTime = endTime;
