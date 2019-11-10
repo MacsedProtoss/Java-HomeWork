@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +30,32 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+}
 
 public class ScrollingActivity extends AppCompatActivity {
 
@@ -55,6 +81,9 @@ public class ScrollingActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.MainList);
         listView.setAdapter(adapter);
 
+        NestedScrollView mainListLayer = (NestedScrollView) findViewById(R.id.MainListLayer);
+        mainListLayer.setNestedScrollingEnabled(true);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,22 +108,46 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        String dateString = endTimeText.getText().toString();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        Date formatedDate = null;
+                        try {
+                            formatedDate = format.parse(dateString);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
                         if (repeatTimeText.getVisibility() == View.VISIBLE){
                             //MARK : repeat
-                            //RepeatTask newTask = new RepeatTask(nameText.getText().toString(),descriptionText.getText().toString(),Date(),endTimeText.getText().toString());
+
+                            int increasedDays = Integer.valueOf(strideText.getText().toString())*Integer.valueOf(repeatTimeText.getText().toString());
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(formatedDate);
+                            cal.add(Calendar.DATE, increasedDays); //minus number would decrement the days
+                            Date endTime = cal.getTime();
+
+                            RepeatTask newTask = new RepeatTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate,endTime,Integer.valueOf(strideText.getText().toString()),Integer.valueOf(repeatTimeText.getText().toString()));
+                            listData.add(newTask);
+                            dataManager.setTask(listData);
+                            fileManager.writeJson(dataManager.encodeJson());
+                            adapter.setTasks(listData);
+                            adapter.notifyDataSetChanged();
+
                         }else {
                             if (subText.getVisibility() == View.VISIBLE){
                                 //MARK : longTerm
+                                LongTermTask newTask = new LongTermTask(nameText.getText().toString(),descriptionText.getText().toString(),null,formatedDate);
+                                listData.add(newTask);
+                                dataManager.setTask(listData);
+                                fileManager.writeJson(dataManager.encodeJson());
+                                adapter.setTasks(listData);
+                                adapter.notifyDataSetChanged();
+
+
                             }else{
                                 //MARK : temporary
-                                String dateString = endTimeText.getText().toString();
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date formatedDate = null;
-                                try {
-                                    formatedDate = format.parse(dateString);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
 
                                 TemporaryTask newTask = new TemporaryTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate);
                                 listData.add(newTask);
@@ -121,14 +174,17 @@ public class ScrollingActivity extends AppCompatActivity {
                             repeatTimeText.setVisibility(View.INVISIBLE);
                             strideText.setVisibility(View.INVISIBLE);
                             subText.setVisibility(View.INVISIBLE);
+                            endTimeText.setHint("结束时间(yyyy-MM-dd)");
                         }else if (position == 1){
                             repeatTimeText.setVisibility(View.VISIBLE);
                             strideText.setVisibility(View.VISIBLE);
                             subText.setVisibility(View.INVISIBLE);
+                            endTimeText.setHint("第一次截止时间(yyyy-MM-dd)");
                         }else if (position == 2){
                             repeatTimeText.setVisibility(View.INVISIBLE);
                             strideText.setVisibility(View.INVISIBLE);
                             subText.setVisibility(View.VISIBLE);
+                            endTimeText.setHint("结束时间(yyyy-MM-dd)");
                         }
                     }
 

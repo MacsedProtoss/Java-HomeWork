@@ -68,11 +68,11 @@ public class MainListAdapter extends BaseAdapter {
                 break;
             case Repeat:
                 task = (RepeatTask)task;
-                endTimeText.setText(((TemporaryTask) task).getEndTime().toString());
+                endTimeText.setText(((RepeatTask) task).getEndTime().toString());
                 break;
             case LongTerm:
                 task = (LongTermTask)task;
-                endTimeText.setText(((TemporaryTask) task).getEndTime().toString());
+                endTimeText.setText(((LongTermTask) task).getEndTime().toString());
                 break;
 
         }
