@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.hustunique.macsed.todolist.Data.*;
 
@@ -63,7 +64,7 @@ public class ScrollingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Context context = ScrollingActivity.this;
+                final Context context = ScrollingActivity.this;
                 LayoutInflater inflater = getLayoutInflater();
 
                 AlertDialog.Builder builder = new  AlertDialog.Builder(context);
@@ -90,11 +91,22 @@ public class ScrollingActivity extends AppCompatActivity {
                             formatedDate = format.parse(dateString);
                         } catch (ParseException e) {
                             e.printStackTrace();
+                            Toast toast=Toast.makeText(context, "添加失败！输入的日期有误", Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
                         }
 
 
                         if (repeatTimeText.getVisibility() == View.VISIBLE){
                             //MARK : repeat
+
+                            if (strideText.getText().toString().equals("") || repeatTimeText.getText().toString().equals("") || nameText.getText().toString().equals("") || descriptionText.getText().toString().equals("")){
+                                Toast toast=Toast.makeText(context, "添加失败！有未输入的信息", Toast.LENGTH_SHORT);
+                                toast.show();
+                                return;
+                            }
+
+
 
                             int increasedDays = Integer.valueOf(strideText.getText().toString())*Integer.valueOf(repeatTimeText.getText().toString());
                             Calendar cal = Calendar.getInstance();
@@ -110,6 +122,13 @@ public class ScrollingActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
 
                         }else {
+
+                            if (nameText.getText().toString().equals("") || descriptionText.getText().toString().equals("")){
+                                Toast toast=Toast.makeText(context, "添加失败！有未输入的信息", Toast.LENGTH_SHORT);
+                                toast.show();
+                                return;
+                            }
+
                             if (subText.getVisibility() == View.VISIBLE){
                                 //MARK : longTerm
                                 LongTermTask newTask = new LongTermTask(nameText.getText().toString(),descriptionText.getText().toString(),null,formatedDate);
@@ -122,6 +141,12 @@ public class ScrollingActivity extends AppCompatActivity {
 
                             }else{
                                 //MARK : temporary
+
+                                if (nameText.getText().toString().equals("") || descriptionText.getText().toString().equals("")){
+                                    Toast toast=Toast.makeText(context, "添加失败！有未输入的信息", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    return;
+                                }
 
                                 TemporaryTask newTask = new TemporaryTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate);
                                 listData.add(newTask);
@@ -168,12 +193,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     }
                 });
 
-
-
-
-
-
-
+                
                 dialog.show();
             }
         });

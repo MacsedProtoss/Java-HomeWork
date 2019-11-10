@@ -90,7 +90,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_about">关于</string>
-    <string name="action_filter">调整显示</string>
+    <string name="action_filter">显示模式</string>
+    <string name="action_search">查找事项</string>
+
     <string name="add_reminder_title">增加事项</string>
     <string name="add_reminder_name">名称</string>
     <string name="add_reminder_discription">描述</string>
