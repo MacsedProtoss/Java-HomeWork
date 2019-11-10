@@ -87,6 +87,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         String dateString = endTimeText.getText().toString();
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                         Date formatedDate = null;
+
                         try {
                             formatedDate = format.parse(dateString);
                         } catch (ParseException e) {
@@ -193,7 +194,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     }
                 });
 
-                
+
                 dialog.show();
             }
         });

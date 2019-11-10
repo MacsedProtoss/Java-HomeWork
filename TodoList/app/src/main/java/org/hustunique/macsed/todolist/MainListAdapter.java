@@ -1,5 +1,6 @@
 package org.hustunique.macsed.todolist;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,6 +77,16 @@ public class MainListAdapter extends BaseAdapter {
                 break;
 
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
+                builder.setTitle("详情");
+                builder.show();
+            }
+        });
+
 
         return convertView;
     }
