@@ -6,6 +6,7 @@ public class Task {
     private String description;
     protected TaskType type;
     private Boolean isDone;
+    public LongTermTask parentTask = null;
 
     public TaskType getType(){
         return this.type;

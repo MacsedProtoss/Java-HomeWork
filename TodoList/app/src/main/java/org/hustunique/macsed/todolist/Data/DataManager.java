@@ -3,10 +3,11 @@ package org.hustunique.macsed.todolist.Data;
 
 import android.util.Log;
 
+import org.hustunique.macsed.todolist.Data.Task.LongTermTask;
 import org.hustunique.macsed.todolist.Data.Task.Task;
 import org.hustunique.macsed.todolist.UI.MainListAdapter;
 
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
@@ -19,6 +20,35 @@ public class DataManager {
 
     public List getListData(){
         return this.listData;
+    }
+
+    public List getMainListData(){
+        List<Task> output = new ArrayList();
+
+        for (Task task:listData
+             ) {
+
+            if (task.parentTask == null){
+                output.add(task);
+            }
+
+        }
+
+        return output;
+    }
+
+    public List getSubListOf(LongTermTask parentTask){
+
+        for (Task task:listData
+        ) {
+
+            if (task.equals(parentTask)){
+                LongTermTask t = (LongTermTask) task;
+                return t.getSonTasks();
+            }
+        }
+
+        return null;
     }
 
 

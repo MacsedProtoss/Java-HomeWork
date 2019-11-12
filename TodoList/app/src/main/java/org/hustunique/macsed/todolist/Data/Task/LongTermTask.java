@@ -1,12 +1,12 @@
 package org.hustunique.macsed.todolist.Data.Task;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class LongTermTask extends Task {
 
-    private LongTermTask parentTask;
-    private List<LongTermTask> sonTasks;
+    private List<Task> sonTasks;
     private Date endTime;
 
     public Date getEndTime() {
@@ -17,7 +17,7 @@ public class LongTermTask extends Task {
         return parentTask;
     }
 
-    public List<LongTermTask> getSonTasks() {
+    public List<Task> getSonTasks() {
         return sonTasks;
     }
 
@@ -25,12 +25,16 @@ public class LongTermTask extends Task {
         super(name, description);
         super.type = TaskType.LongTerm;
         this.endTime = endTime;
-        this.parentTask = parentTask;
-        this.sonTasks = null;
+        super.parentTask = parentTask;
+        this.sonTasks = new ArrayList();
         if (parentTask != null){
             parentTask.sonTasks.add(this);
         }
 
+    }
+
+    public void addSonTask(Task sonTask){
+        sonTasks.add(sonTask);
     }
 
 }

@@ -1,27 +1,18 @@
 package org.hustunique.macsed.todolist.UI;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import org.hustunique.macsed.todolist.Data.DataManager;
 import org.hustunique.macsed.todolist.Data.Task.*;
 import org.hustunique.macsed.todolist.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainListAdapter extends BaseAdapter {
 
@@ -30,10 +21,26 @@ public class MainListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private MainListAdapter adapter = this;
+    private ListType type = ListType.main;
 
     public void setManager(DataManager manager){
         this.manager = manager;
-        tasks = manager.getListData();
+        tasks = manager.getMainListData();
+    }
+
+    public void setType(ListType type,LongTermTask task) {
+        this.type = type;
+        switch (type){
+            case all:
+                tasks = manager.getListData();
+                break;
+            case main:
+                tasks = manager.getMainListData();
+                break;
+            case sub:
+                tasks = manager.getSubListOf(task);
+                break;
+        }
     }
 
     public void setTasks(List<Task> tasks){
@@ -112,8 +119,6 @@ public class MainListAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-
 
 
 

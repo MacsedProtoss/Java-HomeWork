@@ -1,42 +1,22 @@
 package org.hustunique.macsed.todolist;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
-import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.hustunique.macsed.todolist.Data.Task.*;
+
 import org.hustunique.macsed.todolist.Data.*;
 import org.hustunique.macsed.todolist.UI.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.zip.Inflater;
 
 public class ScrollingActivity extends AppCompatActivity {
 
@@ -71,9 +51,6 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 
 

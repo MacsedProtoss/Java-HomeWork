@@ -1,6 +1,5 @@
 package org.hustunique.macsed.todolist.Data.Task;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 public class RepeatTask extends Task {
