@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/thing_preview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/thing_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/add_reminder_name"
+        android:inputType="textPersonName"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/thing_description"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:autoSizeTextType="uniform"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/add_reminder_discription"
+        android:inputType="textMultiLine"
+        android:minLines="6"/>
+
+
+    <Spinner
+        android:id="@+id/thing_spin"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:entries="@array/add_reminder_spin" />
+
+    <EditText
+        android:id="@+id/thing_endTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/add_reminder_endTime"
+        android:inputType="datetime" />
+
+    <EditText
+        android:id="@+id/thing_repeatTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/add_reminder_repeatTime"
+        android:inputType="datetime"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/thing_stride"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/add_reminder_stride"
+        android:inputType="datetime"
+        android:visibility="invisible" />
+
+    <ListView
+        android:id="@+id/sub_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
