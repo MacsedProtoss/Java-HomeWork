@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import org.hustunique.macsed.todolist.Data.Task.*;
 
-public class JosnManager {
+public class JsonManager {
 
     private List<Task> tasks;
     private String json;

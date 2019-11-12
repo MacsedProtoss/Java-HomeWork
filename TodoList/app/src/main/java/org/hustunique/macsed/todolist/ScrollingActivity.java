@@ -56,7 +56,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         adapter.setContext(context);
         adapter.setInflater(inflater);
-        adapter.setTasks(dataManager.getListData());
+        adapter.setManager(dataManager);
 
         final ListView listView = (ListView) findViewById(R.id.MainList);
         listView.setAdapter(adapter);

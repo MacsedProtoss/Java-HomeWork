@@ -13,7 +13,7 @@ public class DataManager {
 
     private FileManager fileManager = new FileManager();
 
-    private JosnManager josnManager = new JosnManager();
+    private JsonManager jsonManager = new JsonManager();
 
     private List<Task> listData = null;
 
@@ -24,8 +24,8 @@ public class DataManager {
 
     public void initWithPath(String path) {
         fileManager.setPath(path);
-        josnManager.setJson(fileManager.readJson());
-        listData = josnManager.decodeJson();
+        jsonManager.setJson(fileManager.readJson());
+        listData = jsonManager.decodeJson();
     }
 
     public void addNewDataToList(Task newTask,MainListAdapter adapter){
@@ -36,8 +36,8 @@ public class DataManager {
         }
 
         listData.add(newTask);
-        josnManager.setTask(listData);
-        fileManager.writeJson(josnManager.encodeJson());
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
         adapter.setTasks(listData);
         adapter.notifyDataSetChanged();
     }
@@ -49,8 +49,8 @@ public class DataManager {
         }
 
         listData.set(index,updatedTask);
-        josnManager.setTask(listData);
-        fileManager.writeJson(josnManager.encodeJson());
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
         adapter.setTasks(listData);
         adapter.notifyDataSetChanged();
 
@@ -64,8 +64,8 @@ public class DataManager {
         }
 
         listData.remove(index);
-        josnManager.setTask(listData);
-        fileManager.writeJson(josnManager.encodeJson());
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
         adapter.setTasks(listData);
         adapter.notifyDataSetChanged();
     }

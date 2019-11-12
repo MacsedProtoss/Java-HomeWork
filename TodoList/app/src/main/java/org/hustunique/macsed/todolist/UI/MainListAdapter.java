@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.hustunique.macsed.todolist.Data.DataManager;
 import org.hustunique.macsed.todolist.Data.Task.*;
 import org.hustunique.macsed.todolist.R;
 
@@ -25,10 +26,17 @@ import java.util.zip.Inflater;
 public class MainListAdapter extends BaseAdapter {
 
     private List<Task> tasks;
+    private DataManager manager;
     private Context context;
     private LayoutInflater inflater;
+    private MainListAdapter adapter = this;
 
-    public void setTasks(List<Task> tasks) {
+    public void setManager(DataManager manager){
+        this.manager = manager;
+        tasks = manager.getListData();
+    }
+
+    public void setTasks(List<Task> tasks){
         this.tasks = tasks;
     }
 
@@ -90,90 +98,14 @@ public class MainListAdapter extends BaseAdapter {
         }
 
         final Task finalTask = task;
+        final int finalPosition = position;
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new  AlertDialog.Builder(context);
-                builder.setTitle("详情");
-                View dialogLayout = inflater.inflate(R.layout.layout_preview, null);
 
-                final Spinner spinner = dialogLayout.findViewById(R.id.thing_spin);
-                final EditText nameText = dialogLayout.findViewById(R.id.thing_name);
-                final EditText descriptionText = dialogLayout.findViewById(R.id.thing_description);
-                final EditText endTimeText = dialogLayout.findViewById(R.id.thing_endTime);
-                final EditText repeatTimeText = dialogLayout.findViewById(R.id.thing_repeatTime);
-                final EditText strideText = dialogLayout.findViewById(R.id.thing_stride);
-                final ListView listView = dialogLayout.findViewById(R.id.sub_list);
-
-
-                spinner.setEnabled(false);
-                nameText.setInputType(InputType.TYPE_NULL);
-                descriptionText.setInputType(InputType.TYPE_NULL);
-                endTimeText.setInputType(InputType.TYPE_NULL);
-                repeatTimeText.setInputType(InputType.TYPE_NULL);
-                strideText.setInputType(InputType.TYPE_NULL);
-
-
-                nameText.setText(finalTask.getName());
-                descriptionText.setText(finalTask.getDescription());
-
-
-                switch(finalTask.getType()){
-                    case Temporary:
-
-
-                        spinner.setSelection(0);
-                        TemporaryTask temporaryTask = (TemporaryTask)finalTask;
-                        repeatTimeText.setVisibility(View.INVISIBLE);
-                        strideText.setVisibility(View.INVISIBLE);
-                        listView.setVisibility(View.INVISIBLE);
-                        endTimeText.setText(temporaryTask.getEndTime().toString());
-
-
-                        break;
-                    case Repeat:
-
-                        spinner.setSelection(1);
-                        RepeatTask repeatTask = (RepeatTask) finalTask;
-                        repeatTimeText.setVisibility(View.VISIBLE);
-                        strideText.setVisibility(View.VISIBLE);
-                        listView.setVisibility(View.INVISIBLE);
-                        endTimeText.setText(repeatTask.getEndTime().toString());
-                        repeatTimeText.setText(String.valueOf(repeatTask.getRepeatTime()));
-                        strideText.setText(String.valueOf(repeatTask.getStride()));
-
-                        break;
-                    case LongTerm:
-
-                        spinner.setSelection(2);
-                        LongTermTask longTermTask = (LongTermTask) finalTask;
-                        repeatTimeText.setVisibility(View.INVISIBLE);
-                        strideText.setVisibility(View.INVISIBLE);
-                        listView.setVisibility(View.VISIBLE);
-                        endTimeText.setText(longTermTask.getEndTime().toString());
-
-                        break;
-                }
-
-                builder.setView(dialogLayout);
-
-                builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-
-                    }
-                });
-
-                builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-
-
-                    }
-                });
-
-                builder.show();
+                CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
+                builder.getThingsPreviewView(adapter,finalTask,finalPosition);
             }
         });
 
