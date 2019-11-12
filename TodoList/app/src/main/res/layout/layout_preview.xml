@@ -17,13 +17,13 @@
     <EditText
         android:id="@+id/thing_description"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/add_reminder_discription"
         android:inputType="textMultiLine"
-        android:minLines="6"/>
+        android:minLines="6" />
 
 
     <Spinner

@@ -2,9 +2,12 @@ package org.hustunique.macsed.todolist.Data;
 
 
 import android.util.Log;
+import android.widget.Switch;
 
 import org.hustunique.macsed.todolist.Data.Task.LongTermTask;
+import org.hustunique.macsed.todolist.Data.Task.RepeatTask;
 import org.hustunique.macsed.todolist.Data.Task.Task;
+import org.hustunique.macsed.todolist.Data.Task.TemporaryTask;
 import org.hustunique.macsed.todolist.UI.MainListAdapter;
 
 import java.util.ArrayList;
@@ -23,32 +26,12 @@ public class DataManager {
     }
 
     public List getMainListData(){
-        List<Task> output = new ArrayList();
-
-        for (Task task:listData
-             ) {
-
-            if (task.parentTask == null){
-                output.add(task);
-            }
-
-        }
-
-        return output;
+        return this.listData;
     }
 
     public List getSubListOf(LongTermTask parentTask){
 
-        for (Task task:listData
-        ) {
-
-            if (task.equals(parentTask)){
-                LongTermTask t = (LongTermTask) task;
-                return t.getSonTasks();
-            }
-        }
-
-        return null;
+        return parentTask.getSonTasks();
     }
 
 
@@ -59,6 +42,18 @@ public class DataManager {
     }
 
     public void addNewDataToList(Task newTask,MainListAdapter adapter){
+
+        switch (newTask.getType()){
+            case Temporary:
+                newTask = (TemporaryTask)newTask;
+                break;
+            case LongTerm:
+                newTask = (LongTermTask)newTask;
+                break;
+            case Repeat:
+                newTask = (RepeatTask)newTask;
+                break;
+        }
 
         if (listData == null){
             Log.d("Error in DataManager","find null while add New Data. It's mainly caused by not have Manager init");
@@ -73,6 +68,8 @@ public class DataManager {
     }
 
     public void updateDataInList(Task updatedTask,int index,MainListAdapter adapter){
+
+
         if (listData == null){
             Log.d("Error in DataManager","find null while update Data. It's mainly caused by not have Manager init");
             return;
@@ -101,6 +98,7 @@ public class DataManager {
     }
 
     public void deleteSubDataInList(int index , MainListAdapter adapter,LongTermTask parentTask){
+
         parentTask.deleteSonTask(index);
 
         jsonManager.setTask(listData);
@@ -111,6 +109,20 @@ public class DataManager {
     }
 
     public void updateSubDataInList(int index , MainListAdapter adapter,LongTermTask parentTask,Task newTask){
+
+        switch (newTask.getType()){
+            case Temporary:
+                newTask = (TemporaryTask)newTask;
+                break;
+            case LongTerm:
+                newTask = (LongTermTask)newTask;
+                break;
+            case Repeat:
+                newTask = (RepeatTask)newTask;
+                break;
+        }
+
+
         parentTask.updateSonTask(index,newTask);
 
         jsonManager.setTask(listData);
@@ -120,6 +132,19 @@ public class DataManager {
     }
 
     public void addSubDataInList( MainListAdapter adapter,LongTermTask parentTask,Task newTask){
+
+        switch (newTask.getType()){
+            case Temporary:
+                newTask = (TemporaryTask)newTask;
+                break;
+            case LongTerm:
+                newTask = (LongTermTask)newTask;
+                break;
+            case Repeat:
+                newTask = (RepeatTask)newTask;
+                break;
+        }
+
         parentTask.addSonTask(newTask);
 
         jsonManager.setTask(listData);

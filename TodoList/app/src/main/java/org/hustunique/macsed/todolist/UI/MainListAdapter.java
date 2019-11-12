@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.hustunique.macsed.todolist.Data.DataManager;
 import org.hustunique.macsed.todolist.Data.Task.*;
 import org.hustunique.macsed.todolist.R;
@@ -56,6 +59,7 @@ public class MainListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+
         Log.d("size",""+tasks.size());
 
         return tasks.size();
@@ -88,6 +92,12 @@ public class MainListAdapter extends BaseAdapter {
         descriptionText.setText(task.getDescription());
         typeText.setText(task.getType().toString());
 
+
+        Gson gson = new Gson();
+
+        Log.d("taska info",gson.toJson(tasks));
+
+        Log.d("task info",gson.toJson(task));
 
         switch(task.getType()) {
             case Temporary:

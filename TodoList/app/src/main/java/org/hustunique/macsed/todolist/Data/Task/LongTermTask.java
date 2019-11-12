@@ -45,4 +45,7 @@ public class LongTermTask extends Task {
         sonTasks.set(index,sonTask);
     }
 
+    public void clearSonTasks(){
+        sonTasks = new ArrayList<>();
+    }
 }
