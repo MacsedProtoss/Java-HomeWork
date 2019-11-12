@@ -1,7 +1,8 @@
-package org.hustunique.macsed.todolist;
+package org.hustunique.macsed.todolist.UI;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import org.hustunique.macsed.todolist.Data.*;
+import org.hustunique.macsed.todolist.Data.Task.*;
+import org.hustunique.macsed.todolist.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,7 @@ public class MainListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
+                final AlertDialog.Builder builder = new  AlertDialog.Builder(context);
                 builder.setTitle("详情");
                 View dialogLayout = inflater.inflate(R.layout.layout_preview, null);
 
@@ -154,9 +156,22 @@ public class MainListAdapter extends BaseAdapter {
                         break;
                 }
 
-
-
                 builder.setView(dialogLayout);
+
+                builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+
+                builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+
+                    }
+                });
 
                 builder.show();
             }
@@ -165,4 +180,11 @@ public class MainListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+
+
+
+
+
+
 }

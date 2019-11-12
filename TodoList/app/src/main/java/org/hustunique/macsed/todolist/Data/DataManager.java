@@ -1,83 +1,74 @@
 package org.hustunique.macsed.todolist.Data;
 
+
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.hustunique.macsed.todolist.Data.Task.Task;
+import org.hustunique.macsed.todolist.UI.MainListAdapter;
 
-import java.util.ArrayList;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 
 public class DataManager {
 
-    private List<Task> tasks;
-    private String json;
+    private FileManager fileManager = new FileManager();
 
-    public void setTask(List<Task> tasks){
-        this.tasks = tasks;
+    private JosnManager josnManager = new JosnManager();
+
+    private List<Task> listData = null;
+
+    public List getListData(){
+        return this.listData;
     }
 
-    public void setJson(String json){
-        this.json = json;
+
+    public void initWithPath(String path) {
+        fileManager.setPath(path);
+        josnManager.setJson(fileManager.readJson());
+        listData = josnManager.decodeJson();
     }
 
-    public List<Task> decodeJson(){
+    public void addNewDataToList(Task newTask,MainListAdapter adapter){
 
-        Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        List<Map<String,String>> DecodeBackData = new ArrayList<Map<String,String>>();
-        tasks = new ArrayList<>();
-
-        if (json == null){
-            Log.d("Error in decoding Json","task is null");
-
-        }else{
-            DecodeBackData = gson.fromJson(json, List.class);
+        if (listData == null){
+            Log.d("Error in DataManager","find null while add New Data. It's mainly caused by not have Manager init");
+            return;
         }
 
-        for (Map<String,String> task:DecodeBackData) {
+        listData.add(newTask);
+        josnManager.setTask(listData);
+        fileManager.writeJson(josnManager.encodeJson());
+        adapter.setTasks(listData);
+        adapter.notifyDataSetChanged();
+    }
 
-            String codeBack = gson.toJson(task);
-
-            switch (task.get("type")){
-                case "Temporary":
-                    tasks.add(gson.fromJson(codeBack,TemporaryTask.class));
-                    break;
-                case "Repeat":
-                    tasks.add(gson.fromJson(codeBack,RepeatTask.class));
-                    break;
-                case "LongTerm":
-                    tasks.add(gson.fromJson(codeBack,LongTermTask.class));
-                    break;
-            }
-
-
+    public void updateDataInList(Task updatedTask,int index,MainListAdapter adapter){
+        if (listData == null){
+            Log.d("Error in DataManager","find null while update Data. It's mainly caused by not have Manager init");
+            return;
         }
 
-        return tasks;
+        listData.set(index,updatedTask);
+        josnManager.setTask(listData);
+        fileManager.writeJson(josnManager.encodeJson());
+        adapter.setTasks(listData);
+        adapter.notifyDataSetChanged();
 
     }
 
+    public void deleteDataInList(int index , MainListAdapter adapter){
 
-    public String encodeJson(){
-
-        Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        json = null;
-        List tempList = new ArrayList();
-
-        if (tasks == null){
-            Log.d("Error in encoding Json","task is null");
-
-        }else{
-
-            json = gson.toJson(tasks,List.class);
+        if (listData == null){
+            Log.d("Error in DataManager","find null while delete Data. It's mainly caused by not have Manager init");
+            return;
         }
 
-        return json;
+        listData.remove(index);
+        josnManager.setTask(listData);
+        fileManager.writeJson(josnManager.encodeJson());
+        adapter.setTasks(listData);
+        adapter.notifyDataSetChanged();
     }
-
-
 
 
 }
-

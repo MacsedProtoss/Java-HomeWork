@@ -1,4 +1,4 @@
-package org.hustunique.macsed.todolist.Data;
+package org.hustunique.macsed.todolist.Data.Task;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package org.hustunique.macsed.todolist.Data;
+package org.hustunique.macsed.todolist.Data.Task;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +27,10 @@ public class LongTermTask extends Task {
         this.endTime = endTime;
         this.parentTask = parentTask;
         this.sonTasks = null;
-        parentTask.sonTasks.add(this);
+        if (parentTask != null){
+            parentTask.sonTasks.add(this);
+        }
+
     }
 
 }
