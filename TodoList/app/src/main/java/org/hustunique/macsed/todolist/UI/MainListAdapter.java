@@ -23,6 +23,7 @@ public class MainListAdapter extends BaseAdapter {
     private MainListAdapter adapter = this;
     private ListType type = ListType.main;
 
+
     public void setManager(DataManager manager){
         this.manager = manager;
         tasks = manager.getMainListData();
@@ -77,7 +78,7 @@ public class MainListAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.layout_list_cell,parent,false);
         TextView nameText = (TextView) convertView.findViewById(R.id.thing_name);
         TextView descriptionText = (TextView) convertView.findViewById(R.id.thing_description);
-        TextView typeText = (TextView) convertView.findViewById(R.id.thing_type);
+        final TextView typeText = (TextView) convertView.findViewById(R.id.thing_type);
         TextView endTimeText = (TextView) convertView.findViewById(R.id.thing_dueTime);
 
 
@@ -110,9 +111,13 @@ public class MainListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
-                builder.getThingsPreviewView(adapter,finalTask,finalPosition);
+                if (type == ListType.main){
+                    CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
+                    builder.getThingsPreviewView(adapter,finalTask,finalPosition,null);
+                }else if (type == ListType.sub){
+                    CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
+                    builder.getThingsPreviewView(adapter,finalTask,finalPosition,finalTask.parentTask);
+                }
             }
         });
 

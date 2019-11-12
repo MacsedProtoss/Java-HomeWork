@@ -100,5 +100,33 @@ public class DataManager {
         adapter.notifyDataSetChanged();
     }
 
+    public void deleteSubDataInList(int index , MainListAdapter adapter,LongTermTask parentTask){
+        parentTask.deleteSonTask(index);
+
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
+        adapter.setTasks(getSubListOf(parentTask));
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public void updateSubDataInList(int index , MainListAdapter adapter,LongTermTask parentTask,Task newTask){
+        parentTask.updateSonTask(index,newTask);
+
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
+        adapter.setTasks(getSubListOf(parentTask));
+        adapter.notifyDataSetChanged();
+    }
+
+    public void addSubDataInList( MainListAdapter adapter,LongTermTask parentTask,Task newTask){
+        parentTask.addSonTask(newTask);
+
+        jsonManager.setTask(listData);
+        fileManager.writeJson(jsonManager.encodeJson());
+        adapter.setTasks(getSubListOf(parentTask));
+        adapter.notifyDataSetChanged();
+    }
+
 
 }

@@ -46,7 +46,7 @@ public class ScrollingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,dataManager);
-                builder.getAddTingsView(adapter);
+                builder.getAddTingsView(adapter,null);
 
             }
         });

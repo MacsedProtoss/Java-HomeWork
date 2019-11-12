@@ -61,6 +61,12 @@
         android:inputType="datetime"
         android:visibility="invisible" />
 
+    <Button
+        android:id="@+id/thing_add_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加子任务" />
+
     <ListView
         android:id="@+id/sub_list"
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import org.hustunique.macsed.todolist.Data.DataManager;
 import org.hustunique.macsed.todolist.Data.Task.LongTermTask;
 import org.hustunique.macsed.todolist.Data.Task.RepeatTask;
 import org.hustunique.macsed.todolist.Data.Task.Task;
+import org.hustunique.macsed.todolist.Data.Task.TaskType;
 import org.hustunique.macsed.todolist.Data.Task.TemporaryTask;
 import org.hustunique.macsed.todolist.R;
 
@@ -39,7 +41,7 @@ public class CustomDialogBuilder {
         this.dataManager = datamanager;
     }
 
-    public void getAddTingsView(MainListAdapter madapter){
+    public void getAddTingsView(MainListAdapter madapter, final LongTermTask parentTask){
 
         final Context context = this.context;
         final LayoutInflater inflater = this.inflater;
@@ -94,7 +96,12 @@ public class CustomDialogBuilder {
                     Date endTime = cal.getTime();
 
                     RepeatTask newTask = new RepeatTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate,endTime,Integer.valueOf(strideText.getText().toString()),Integer.valueOf(repeatTimeText.getText().toString()));
-                    manager.addNewDataToList(newTask,adapter);
+
+                    if (parentTask == null){
+                        manager.addNewDataToList(newTask,adapter);
+                    }else{
+                        manager.addSubDataInList(adapter,parentTask,newTask);
+                    }
 
                 }else {
 
@@ -107,7 +114,11 @@ public class CustomDialogBuilder {
                     if (subText.getVisibility() == View.VISIBLE){
                         //MARK : longTerm
                         LongTermTask newTask = new LongTermTask(nameText.getText().toString(),descriptionText.getText().toString(),null,formatedDate);
-                        manager.addNewDataToList(newTask,adapter);
+                        if (parentTask == null){
+                            manager.addNewDataToList(newTask,adapter);
+                        }else{
+                            manager.addSubDataInList(adapter,parentTask,newTask);
+                        }
 
                     }else{
                         //MARK : temporary
@@ -119,7 +130,11 @@ public class CustomDialogBuilder {
                         }
 
                         TemporaryTask newTask = new TemporaryTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate);
-                        manager.addNewDataToList(newTask,adapter);
+                        if (parentTask == null){
+                            manager.addNewDataToList(newTask,adapter);
+                        }else{
+                            manager.addSubDataInList(adapter,parentTask,newTask);
+                        }
                     }
                 }
             }
@@ -163,7 +178,7 @@ public class CustomDialogBuilder {
         dialog.show();
     }
 
-    public void getThingsPreviewView(final MainListAdapter madapter, final Task finalTask, final int position){
+    public void getThingsPreviewView(final MainListAdapter madapter, final Task finalTask, final int position,final LongTermTask parentTask){
 
         final Context context = this.context;
         final LayoutInflater inflater = this.inflater;
@@ -181,6 +196,9 @@ public class CustomDialogBuilder {
         final EditText repeatTimeText = dialogLayout.findViewById(R.id.thing_repeatTime);
         final EditText strideText = dialogLayout.findViewById(R.id.thing_stride);
         final ListView listView = dialogLayout.findViewById(R.id.sub_list);
+        final Button addBtn = dialogLayout.findViewById(R.id.thing_add_sub);
+        final MainListAdapter subAdapter = new MainListAdapter();
+
 
 
         spinner.setEnabled(false);
@@ -189,6 +207,7 @@ public class CustomDialogBuilder {
         endTimeText.setInputType(InputType.TYPE_NULL);
         repeatTimeText.setInputType(InputType.TYPE_NULL);
         strideText.setInputType(InputType.TYPE_NULL);
+        addBtn.setEnabled(false);
 
 
         nameText.setText(finalTask.getName());
@@ -204,6 +223,8 @@ public class CustomDialogBuilder {
                 repeatTimeText.setVisibility(View.INVISIBLE);
                 strideText.setVisibility(View.INVISIBLE);
                 listView.setVisibility(View.INVISIBLE);
+                addBtn.setEnabled(false);
+                addBtn.setVisibility(View.INVISIBLE);
                 endTimeText.setText(temporaryTask.getEndTime().toString());
 
 
@@ -212,6 +233,8 @@ public class CustomDialogBuilder {
 
                 spinner.setSelection(1);
                 RepeatTask repeatTask = (RepeatTask) finalTask;
+                addBtn.setEnabled(false);
+                addBtn.setVisibility(View.INVISIBLE);
                 repeatTimeText.setVisibility(View.VISIBLE);
                 strideText.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
@@ -224,27 +247,61 @@ public class CustomDialogBuilder {
 
                 spinner.setSelection(2);
                 LongTermTask longTermTask = (LongTermTask) finalTask;
+                addBtn.setEnabled(true);
+                addBtn.setVisibility(View.VISIBLE);
                 repeatTimeText.setVisibility(View.INVISIBLE);
                 strideText.setVisibility(View.INVISIBLE);
                 listView.setVisibility(View.VISIBLE);
                 endTimeText.setText(longTermTask.getEndTime().toString());
 
+
+                subAdapter.setContext(context);
+                subAdapter.setInflater(inflater);
+                subAdapter.setManager(dataManager);
+                subAdapter.setType(ListType.sub,longTermTask);
+                listView.setAdapter(subAdapter);
+
                 break;
         }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (finalTask.getType() == TaskType.LongTerm){
+                    LongTermTask toTask = (LongTermTask)finalTask;
+
+
+
+                    getAddTingsView(subAdapter,toTask);
+                }
+
+            }
+        });
 
         builder.setView(dialogLayout);
 
         builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                getEditThingsView(madapter,finalTask,position);
+                if (parentTask == null){
+                    getEditThingsView(madapter,finalTask,position,null);
+                }else{
+                    getEditThingsView(madapter,finalTask,position,parentTask);
+                }
+
             }
         });
 
         builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Log.d("will delete item at position",String.valueOf(position));
-                manager.deleteDataInList(position,madapter);
+
+                if (parentTask == null) {
+                    manager.deleteDataInList(position, madapter);
+                }else{
+                    manager.deleteSubDataInList(position,madapter,parentTask);
+                }
             }
 
         });
@@ -252,7 +309,7 @@ public class CustomDialogBuilder {
         builder.show();
     }
 
-    public void getEditThingsView(final MainListAdapter madapter, Task finalTask, final int position){
+    public void getEditThingsView(final MainListAdapter madapter, Task finalTask, final int position,final LongTermTask parentTask){
         final Context context = this.context;
         final LayoutInflater inflater = this.inflater;
         final MainListAdapter adapter = madapter;
@@ -346,7 +403,11 @@ public class CustomDialogBuilder {
                     Date endTime = cal.getTime();
 
                     RepeatTask newTask = new RepeatTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate,endTime,Integer.valueOf(strideText.getText().toString()),Integer.valueOf(repeatTimeText.getText().toString()));
-                    manager.updateDataInList(newTask,position,madapter);
+                    if (parentTask == null){
+                        manager.updateDataInList(newTask,position,adapter);
+                    }else{
+                        manager.updateSubDataInList(position,adapter,parentTask,newTask);
+                    }
 
                 }else {
 
@@ -359,7 +420,11 @@ public class CustomDialogBuilder {
                     if (subText.getVisibility() == View.VISIBLE){
                         //MARK : longTerm
                         LongTermTask newTask = new LongTermTask(nameText.getText().toString(),descriptionText.getText().toString(),null,formatedDate);
-                        manager.updateDataInList(newTask,position,madapter);
+                        if (parentTask == null){
+                            manager.updateDataInList(newTask,position,adapter);
+                        }else{
+                            manager.updateSubDataInList(position,adapter,parentTask,newTask);
+                        }
 
                     }else{
                         //MARK : temporary
@@ -371,7 +436,11 @@ public class CustomDialogBuilder {
                         }
 
                         TemporaryTask newTask = new TemporaryTask(nameText.getText().toString(),descriptionText.getText().toString(),formatedDate);
-                        manager.updateDataInList(newTask,position,madapter);
+                        if (parentTask == null){
+                            manager.updateDataInList(newTask,position,adapter);
+                        }else{
+                            manager.updateSubDataInList(position,adapter,parentTask,newTask);
+                        }
                     }
                 }
             }
@@ -413,10 +482,6 @@ public class CustomDialogBuilder {
 
 
         dialog.show();
-
-    }
-
-    public void getAddSubTaskView(final MainListAdapter madapter, final Task finalTask, final int position){
 
     }
 

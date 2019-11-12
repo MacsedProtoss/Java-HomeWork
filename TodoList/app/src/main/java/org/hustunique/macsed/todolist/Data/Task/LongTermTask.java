@@ -37,4 +37,12 @@ public class LongTermTask extends Task {
         sonTasks.add(sonTask);
     }
 
+    public void deleteSonTask(int index){
+        sonTasks.remove(index);
+    }
+
+    public void updateSonTask(int index,Task sonTask){
+        sonTasks.set(index,sonTask);
+    }
+
 }
