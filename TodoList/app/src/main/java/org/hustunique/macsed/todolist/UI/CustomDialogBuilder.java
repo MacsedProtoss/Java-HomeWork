@@ -34,6 +34,7 @@ public class CustomDialogBuilder {
     private Context context;
     private LayoutInflater inflater;
     private DataManager dataManager;
+    private Boolean actionEnabeld = true;
 
     public CustomDialogBuilder(Context context,LayoutInflater inflater,DataManager datamanager){
         this.context = context;
@@ -178,6 +179,10 @@ public class CustomDialogBuilder {
         dialog.show();
     }
 
+    public void setActionEnabeld(Boolean enabled){
+        this.actionEnabeld = enabled;
+    }
+
     public void getThingsPreviewView(final MainListAdapter madapter, final Task finalTask, final int position,final LongTermTask parentTask){
 
         final Context context = this.context;
@@ -271,8 +276,6 @@ public class CustomDialogBuilder {
                 if (finalTask.getType() == TaskType.LongTerm){
                     LongTermTask toTask = (LongTermTask)finalTask;
 
-
-
                     getAddTingsView(subAdapter,toTask);
                 }
 
@@ -281,30 +284,34 @@ public class CustomDialogBuilder {
 
         builder.setView(dialogLayout);
 
-        builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                if (parentTask == null){
-                    getEditThingsView(madapter,finalTask,position,null);
-                }else{
-                    getEditThingsView(madapter,finalTask,position,parentTask);
+        if (actionEnabeld){
+            builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    if (parentTask == null){
+                        getEditThingsView(madapter,finalTask,position,null);
+                    }else{
+                        getEditThingsView(madapter,finalTask,position,parentTask);
+                    }
+
+                }
+            });
+
+            builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Log.d("will delete item at position",String.valueOf(position));
+
+                    if (parentTask == null) {
+                        manager.deleteDataInList(position, madapter);
+                    }else{
+                        manager.deleteSubDataInList(position,madapter,parentTask);
+                    }
                 }
 
-            }
-        });
+            });
+        }
 
-        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Log.d("will delete item at position",String.valueOf(position));
-
-                if (parentTask == null) {
-                    manager.deleteDataInList(position, madapter);
-                }else{
-                    manager.deleteSubDataInList(position,madapter,parentTask);
-                }
-            }
-
-        });
 
         builder.show();
     }

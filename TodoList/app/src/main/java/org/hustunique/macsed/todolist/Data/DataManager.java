@@ -11,6 +11,7 @@ import org.hustunique.macsed.todolist.Data.Task.TemporaryTask;
 import org.hustunique.macsed.todolist.UI.MainListAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataManager {
@@ -23,6 +24,76 @@ public class DataManager {
 
     public List getListData(){
         return this.listData;
+    }
+
+    public List getSortedList(List<Task> tasks,SortType type){
+        switch (type){
+            case fileDefault:
+                return  tasks;
+            case custom:
+                return null;
+            case dueTime:
+                List<Task> output = new ArrayList();
+                output = tasks;
+                int count = output.size();
+
+                Log.d("task count",String.valueOf(count));
+
+                for (int i = 0 ; i< count ; i++){
+
+                    Task task = output.get(i);
+                    Date miniumEndTime = new Date();
+                    switch(task.getType()) {
+                        case Temporary:
+                            task = (TemporaryTask)task;
+                            miniumEndTime = ((TemporaryTask) task).getEndTime();
+                            break;
+                        case Repeat:
+                            task = (RepeatTask)task;
+                            miniumEndTime = ((TemporaryTask) task).getEndTime();
+                            break;
+                        case LongTerm:
+                            task = (LongTermTask)task;
+                            miniumEndTime = ((TemporaryTask) task).getEndTime();
+                            break;
+
+                    }
+
+                    for (int j = i+1 ; j < count ; j++){
+                        Task task1 = output.get(j);
+                        Date currentDate = new Date();
+                        switch(task1.getType()) {
+                            case Temporary:
+                                task1 = (TemporaryTask)task1;
+                                currentDate = ((TemporaryTask) task1).getEndTime();
+                                break;
+                            case Repeat:
+                                task1 = (RepeatTask)task1;
+                                currentDate = ((TemporaryTask) task1).getEndTime();
+                                break;
+                            case LongTerm:
+                                task1 = (LongTermTask)task1;
+                                currentDate = ((TemporaryTask) task1).getEndTime();
+                                break;
+
+                        }
+
+                        Log.d("task time current",currentDate.toString());
+                        Log.d("task time minium",miniumEndTime.toString());
+                        Log.d("task time is before",String.valueOf(currentDate.before(miniumEndTime)));
+
+
+                        if (currentDate.before(miniumEndTime)){
+                            output.set(i,task1);
+                            output.set(j,task);
+                        }
+
+                    }
+                }
+                return output;
+        }
+
+        return null;
     }
 
     public List getMainListData(){
@@ -155,3 +226,4 @@ public class DataManager {
 
 
 }
+

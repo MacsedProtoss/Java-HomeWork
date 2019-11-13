@@ -20,6 +20,10 @@ import org.hustunique.macsed.todolist.UI.*;
 
 public class ScrollingActivity extends AppCompatActivity {
 
+    private SortType sortType = SortType.fileDefault;
+    final MainListAdapter adapter = new MainListAdapter();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,16 +33,17 @@ public class ScrollingActivity extends AppCompatActivity {
 
         final Context context = ScrollingActivity.this;
         final LayoutInflater inflater = getLayoutInflater();
-        final MainListAdapter adapter = new MainListAdapter();
-
         final DataManager dataManager = new DataManager();
+        final ListView listView = (ListView) findViewById(R.id.MainList);
+
         dataManager.initWithPath(getFilesDir().getAbsolutePath());
 
         adapter.setContext(context);
         adapter.setInflater(inflater);
         adapter.setManager(dataManager);
+        adapter.setSortType(sortType);
 
-        final ListView listView = (ListView) findViewById(R.id.MainList);
+
         listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
@@ -70,9 +75,16 @@ public class ScrollingActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_about) {
+        if (id == R.id.action_about){
             return true;
+        }else if (id == R.id.action_filter){
+            sortType = SortType.dueTime;
+            adapter.setSortType(sortType);
+            adapter.notifyDataSetChanged();
+
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 }

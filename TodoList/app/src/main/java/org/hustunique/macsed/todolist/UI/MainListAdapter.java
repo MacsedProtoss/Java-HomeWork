@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.hustunique.macsed.todolist.Data.DataManager;
+import org.hustunique.macsed.todolist.Data.SortType;
 import org.hustunique.macsed.todolist.Data.Task.*;
 import org.hustunique.macsed.todolist.R;
 
@@ -25,11 +26,17 @@ public class MainListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private MainListAdapter adapter = this;
     private ListType type = ListType.main;
+    private SortType sortType = SortType.fileDefault;
 
 
     public void setManager(DataManager manager){
         this.manager = manager;
         tasks = manager.getMainListData();
+    }
+
+    public void setSortType(SortType type){
+        this.sortType = type;
+        tasks = manager.getSortedList(tasks,sortType);
     }
 
     public void setType(ListType type,LongTermTask task) {
@@ -123,9 +130,11 @@ public class MainListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (type == ListType.main){
                     CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
+                    builder.setActionEnabeld(sortType==SortType.fileDefault?true:false);
                     builder.getThingsPreviewView(adapter,finalTask,finalPosition,null);
                 }else if (type == ListType.sub){
                     CustomDialogBuilder builder = new CustomDialogBuilder(context,inflater,manager);
+                    builder.setActionEnabeld(sortType==SortType.fileDefault?true:false);
                     builder.getThingsPreviewView(adapter,finalTask,finalPosition,finalTask.parentTask);
                 }
             }
