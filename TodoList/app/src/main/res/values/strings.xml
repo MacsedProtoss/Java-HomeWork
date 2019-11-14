@@ -105,4 +105,5 @@
     <string name="add_reminder_repeatTime">重复次数</string>
     <string name="add_reminder_stride">重复间距（天）</string>
     <string name="add_reminder_sub">在创建好任务后，才能创建它的子任务</string>
+    <string name="search_name">查找的项目</string>
 </resources>
