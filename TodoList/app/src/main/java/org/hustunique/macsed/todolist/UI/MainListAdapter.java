@@ -102,7 +102,7 @@ public class MainListAdapter extends BaseAdapter {
 
         Gson gson = new Gson();
 
-        Log.d("taska info",gson.toJson(tasks));
+        Log.d("tasks info",gson.toJson(tasks));
 
         Log.d("task info",gson.toJson(task));
 

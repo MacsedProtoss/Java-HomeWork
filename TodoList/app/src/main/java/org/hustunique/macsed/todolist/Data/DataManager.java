@@ -29,12 +29,11 @@ public class DataManager {
     public List getSortedList(List<Task> tasks,SortType type){
         switch (type){
             case fileDefault:
-                return  tasks;
+                return this.listData;
             case custom:
                 return null;
             case dueTime:
-                List<Task> output = new ArrayList();
-                output = tasks;
+                List<Task> output = new ArrayList<Task>(tasks); ;
                 int count = output.size();
 
                 Log.d("task count",String.valueOf(count));

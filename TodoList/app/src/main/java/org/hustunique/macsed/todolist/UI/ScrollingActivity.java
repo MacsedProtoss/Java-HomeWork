@@ -1,4 +1,4 @@
-package org.hustunique.macsed.todolist;
+package org.hustunique.macsed.todolist.UI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 
 import org.hustunique.macsed.todolist.Data.*;
-import org.hustunique.macsed.todolist.UI.*;
+import org.hustunique.macsed.todolist.R;
 
 
 public class ScrollingActivity extends AppCompatActivity {
@@ -23,6 +23,13 @@ public class ScrollingActivity extends AppCompatActivity {
     private SortType sortType = SortType.fileDefault;
     final MainListAdapter adapter = new MainListAdapter();
 
+    public void setSortType(SortType sortType) {
+        this.sortType = sortType;
+    }
+
+    public SortType getSortType() {
+        return sortType;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +85,13 @@ public class ScrollingActivity extends AppCompatActivity {
         if (id == R.id.action_about){
             return true;
         }else if (id == R.id.action_filter){
-            sortType = SortType.dueTime;
-            adapter.setSortType(sortType);
-            adapter.notifyDataSetChanged();
+
+            FilterBuilder builder = new FilterBuilder();
+            builder.setContext(ScrollingActivity.this);
+            builder.setInflater(getLayoutInflater());
+
+            builder.getFilter();
+
 
         }
 
