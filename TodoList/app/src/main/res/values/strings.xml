@@ -22,4 +22,5 @@
     <string name="import_btn">导入</string>
     <string name="export_btn">导出</string>
     <string name="file_name">输入文件名（在Download目录中）</string>
+    <string name="show_undo">显示未完成</string>
 </resources>

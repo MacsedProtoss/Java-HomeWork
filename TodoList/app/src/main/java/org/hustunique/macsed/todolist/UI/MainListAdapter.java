@@ -38,7 +38,14 @@ public class MainListAdapter extends BaseAdapter {
 
     public void setSortType(SortType type){
         this.sortType = type;
-        tasks = manager.getSortedList(tasks,sortType);
+        if (type == SortType.dueTime) {
+            tasks = manager.getSortedList(tasks, sortType);
+        }else if (type == SortType.fileDefault){
+            tasks = manager.getMainListData();
+        }else{
+            tasks = manager.getMainListData();
+            tasks = manager.getSortedList(tasks, sortType);
+        }
     }
 
     public void setType(ListType type,LongTermTask task) {
@@ -65,6 +72,10 @@ public class MainListAdapter extends BaseAdapter {
     }
 
     public void setInflater(LayoutInflater inflater){this.inflater = inflater;}
+
+    public SortType getSortType() {
+        return sortType;
+    }
 
     @Override
     public int getCount() {

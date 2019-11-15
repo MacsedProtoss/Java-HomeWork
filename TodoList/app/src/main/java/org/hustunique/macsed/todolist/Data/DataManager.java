@@ -31,10 +31,38 @@ public class DataManager {
         switch (type){
             case fileDefault:
                 return this.listData;
-            case custom:
-                return null;
+            case undo:
+                List<Task> output2 = new ArrayList<Task>();
+                int count2 = tasks.size();
+
+                for (int i = 0 ; i< count2 ; i++){
+                    Task task = tasks.get(i);
+
+                    if (!task.getIsDone()){
+                        output2.add(task);
+                    }
+
+                }
+
+
+                return output2;
+            case done:
+                List<Task> output1 = new ArrayList<Task>();
+                int count1 = tasks.size();
+
+                for (int i = 0 ; i< count1 ; i++){
+                    Task task = tasks.get(i);
+
+                    if (task.getIsDone()){
+                        output1.add(task);
+                    }
+
+                }
+
+
+                return output1;
             case dueTime:
-                List<Task> output = new ArrayList<Task>(tasks); ;
+                List<Task> output = new ArrayList<Task>(tasks);
                 int count = output.size();
 
                 Log.d("task count",String.valueOf(count));

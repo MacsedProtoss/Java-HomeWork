@@ -2,6 +2,7 @@ package org.hustunique.macsed.todolist.UI;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,11 +30,18 @@ public class FilterBuilder {
 
         final Button defaultBtn = dialogLayout.findViewById(R.id.fileDefaultBtn);
         final Button dueTimeBtn = dialogLayout.findViewById(R.id.dueTimeBtn);
+        final Button doneBtn = dialogLayout.findViewById(R.id.filter_doneBtn);
 
         builder.setView(dialogLayout);
 
         final ScrollingActivity activity = (ScrollingActivity)context;
         final AlertDialog dialog = builder.create();
+
+        if (activity.adapter.getSortType() == SortType.done){
+            doneBtn.setText("显示未完成");
+        }else{
+            doneBtn.setText("显示已完成");
+        }
 
         defaultBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +63,35 @@ public class FilterBuilder {
                 dialog.dismiss();
             }
         });
+
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("btnName",doneBtn.getText().toString());
+                if (doneBtn.getText().toString().equals("显示未完成")){
+
+                    activity.setSortType(SortType.undo);
+                    activity.adapter.setSortType(activity.getSortType());
+                    activity.adapter.notifyDataSetChanged();
+
+
+                    dialog.dismiss();
+                }else{
+
+                    activity.setSortType(SortType.done);
+                    activity.adapter.setSortType(activity.getSortType());
+                    activity.adapter.notifyDataSetChanged();
+
+
+                    dialog.dismiss();
+
+                }
+            }
+        });
+
+
+
 
 
         dialog.show();
