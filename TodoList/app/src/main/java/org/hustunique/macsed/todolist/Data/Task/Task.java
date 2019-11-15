@@ -24,6 +24,10 @@ public class Task {
         return this.isDone;
     }
 
+    public void setIsDone(boolean isDone){
+        this.isDone = isDone;
+    }
+
     Task(String name,String description){
         this.name = name;
         this.description = description;
