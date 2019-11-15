@@ -27,6 +27,7 @@ public class DataManager {
         return this.listData;
     }
 
+
     public List getSortedList(List<Task> tasks,SortType type){
         switch (type){
             case fileDefault:
@@ -252,6 +253,31 @@ public class DataManager {
 
     }
 
+    public boolean writeToExternal(String filename){
+        return fileManager.writeToExternal(filename,jsonManager.encodeJson());
+    }
+
+
+    public boolean readFromExternal(String filename){
+        String result = fileManager.readFromExternal(filename);
+
+        if (result != null){
+
+            jsonManager.setJson(result);
+            List<Task> imported = jsonManager.decodeJson();
+
+            listData.addAll(imported);
+
+            jsonManager.setTask(listData);
+            fileManager.writeJson(jsonManager.encodeJson());
+            
+            return true;
+        }else{
+            return false;
+        }
+
+
+    }
 
 }
 
