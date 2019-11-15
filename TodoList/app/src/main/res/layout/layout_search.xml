@@ -14,4 +14,10 @@
         android:hint="@string/search_name"
         android:inputType="textPersonName" />
 
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_btn" />
+
 </LinearLayout>

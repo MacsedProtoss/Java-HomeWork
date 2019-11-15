@@ -22,6 +22,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private SortType sortType = SortType.fileDefault;
     final MainListAdapter adapter = new MainListAdapter();
+    final DataManager dataManager = new DataManager();
 
     public void setSortType(SortType sortType) {
         this.sortType = sortType;
@@ -40,7 +41,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         final Context context = ScrollingActivity.this;
         final LayoutInflater inflater = getLayoutInflater();
-        final DataManager dataManager = new DataManager();
+
         final ListView listView = (ListView) findViewById(R.id.MainList);
 
         dataManager.initWithPath(getFilesDir().getAbsolutePath());
@@ -93,6 +94,12 @@ public class ScrollingActivity extends AppCompatActivity {
             builder.getFilter();
 
 
+        }else if (id == R.id.action_search){
+            SearchBuilder builder = new SearchBuilder();
+            builder.setContext(ScrollingActivity.this);
+            builder.setInflater(getLayoutInflater());
+            builder.setManager(dataManager);
+            builder.getSearch();
         }
 
 

@@ -7,6 +7,7 @@ import android.widget.Switch;
 import org.hustunique.macsed.todolist.Data.Task.LongTermTask;
 import org.hustunique.macsed.todolist.Data.Task.RepeatTask;
 import org.hustunique.macsed.todolist.Data.Task.Task;
+import org.hustunique.macsed.todolist.Data.Task.TaskType;
 import org.hustunique.macsed.todolist.Data.Task.TemporaryTask;
 import org.hustunique.macsed.todolist.UI.MainListAdapter;
 
@@ -221,6 +222,34 @@ public class DataManager {
         fileManager.writeJson(jsonManager.encodeJson());
         adapter.setTasks(getSubListOf(parentTask));
         adapter.notifyDataSetChanged();
+    }
+
+    public Task searchTask(String name){
+
+        return loopSearchTask(listData,name);
+
+    }
+
+    private Task loopSearchTask(List<Task> tasks,String name){
+        List<Task> parentTasks = new ArrayList<Task>();
+        for (Task task : tasks){
+            if (task.getName().contains(name)){
+                return task;
+            }
+            if (task.getType() == TaskType.LongTerm){
+
+                if (((LongTermTask) task).getSonTasks().size() > 0){
+                    parentTasks.add(task);
+                }
+            }
+        }
+
+        if (parentTasks.size()>0){
+            return loopSearchTask(parentTasks,name);
+        }else{
+            return null;
+        }
+
     }
 
 
