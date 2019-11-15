@@ -2,7 +2,6 @@ package org.hustunique.macsed.todolist.Data;
 
 
 import android.util.Log;
-import android.widget.Switch;
 
 import org.hustunique.macsed.todolist.Data.Task.LongTermTask;
 import org.hustunique.macsed.todolist.Data.Task.RepeatTask;
@@ -270,7 +269,7 @@ public class DataManager {
 
             jsonManager.setTask(listData);
             fileManager.writeJson(jsonManager.encodeJson());
-            
+
             return true;
         }else{
             return false;

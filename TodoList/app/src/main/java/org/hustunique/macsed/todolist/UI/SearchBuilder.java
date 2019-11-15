@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.hustunique.macsed.todolist.Data.DataManager;
-import org.hustunique.macsed.todolist.Data.SortType;
 import org.hustunique.macsed.todolist.Data.Task.Task;
 import org.hustunique.macsed.todolist.R;
 

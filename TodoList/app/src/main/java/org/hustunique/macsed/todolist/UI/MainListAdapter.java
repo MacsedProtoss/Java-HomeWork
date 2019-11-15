@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.hustunique.macsed.todolist.Data.DataManager;
 import org.hustunique.macsed.todolist.Data.SortType;
