@@ -94,7 +94,10 @@ public class ScrollingActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about){
-            return true;
+            AboutBuilder builder = new AboutBuilder();
+            builder.setContext(ScrollingActivity.this);
+            builder.setInflater(getLayoutInflater());
+            builder.getAbout();
         }else if (id == R.id.action_filter){
 
             FilterBuilder builder = new FilterBuilder();

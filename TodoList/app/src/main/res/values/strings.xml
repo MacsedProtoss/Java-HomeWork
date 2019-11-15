@@ -23,4 +23,13 @@
     <string name="export_btn">导出</string>
     <string name="file_name">输入文件名（在Download目录中）</string>
     <string name="show_undo">显示未完成</string>
+    <string name="about">
+        TodoList\n
+
+        CopyRight©️Macsed Protoss 2019-2019\n
+        Warning: This project is under MIT License.\n
+        \n
+        This is a todolist for OOP course\'s homework.\n
+        For more information, please refer to the README in my repo.\n
+    </string>
 </resources>
