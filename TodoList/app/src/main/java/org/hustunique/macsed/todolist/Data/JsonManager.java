@@ -25,12 +25,6 @@ public class JsonManager {
 
     public List<Task> decodeJson(){
 
-//
-//        Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-//        Type type = TypeToken.getParameterized(ArrayList.class,Task.class).getType();
-//
-//        return gson.fromJson(json,type);
-
         Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 

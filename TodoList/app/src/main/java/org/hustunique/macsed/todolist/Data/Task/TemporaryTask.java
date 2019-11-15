@@ -1,5 +1,6 @@
 package org.hustunique.macsed.todolist.Data.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TemporaryTask extends Task {
@@ -8,6 +9,11 @@ public class TemporaryTask extends Task {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public String getEndTimeFormated(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(endTime);
     }
 
     public TemporaryTask(String name, String description, Date endTime) {

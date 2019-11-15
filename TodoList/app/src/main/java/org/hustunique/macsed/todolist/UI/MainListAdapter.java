@@ -108,15 +108,15 @@ public class MainListAdapter extends BaseAdapter {
         switch(task.getType()) {
             case Temporary:
                 task = (TemporaryTask)task;
-                endTimeText.setText(((TemporaryTask) task).getEndTime().toString());
+                endTimeText.setText(((TemporaryTask) task).getEndTimeFormated());
                 break;
             case Repeat:
                 task = (RepeatTask)task;
-                endTimeText.setText(((RepeatTask) task).getEndTime().toString());
+                endTimeText.setText(((RepeatTask) task).getEndTimeFormated());
                 break;
             case LongTerm:
                 task = (LongTermTask)task;
-                endTimeText.setText(((LongTermTask) task).getEndTime().toString());
+                endTimeText.setText(((LongTermTask) task).getEndTimeFormated());
                 break;
 
         }

@@ -230,7 +230,7 @@ public class CustomDialogBuilder {
                 listView.setVisibility(View.INVISIBLE);
                 addBtn.setEnabled(false);
                 addBtn.setVisibility(View.INVISIBLE);
-                endTimeText.setText(temporaryTask.getEndTime().toString());
+                endTimeText.setText(temporaryTask.getEndTimeFormated());
 
 
                 break;
@@ -243,7 +243,7 @@ public class CustomDialogBuilder {
                 repeatTimeText.setVisibility(View.VISIBLE);
                 strideText.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
-                endTimeText.setText(repeatTask.getEndTime().toString());
+                endTimeText.setText(repeatTask.getEndTimeFormated());
                 repeatTimeText.setText(String.valueOf(repeatTask.getRepeatTime()));
                 strideText.setText(String.valueOf(repeatTask.getStride()));
 
@@ -257,7 +257,7 @@ public class CustomDialogBuilder {
                 repeatTimeText.setVisibility(View.INVISIBLE);
                 strideText.setVisibility(View.INVISIBLE);
                 listView.setVisibility(View.VISIBLE);
-                endTimeText.setText(longTermTask.getEndTime().toString());
+                endTimeText.setText(longTermTask.getEndTimeFormated());
 
 
                 subAdapter.setContext(context);
@@ -348,7 +348,7 @@ public class CustomDialogBuilder {
                 TemporaryTask temporaryTask = (TemporaryTask)finalTask;
                 repeatTimeText.setVisibility(View.INVISIBLE);
                 strideText.setVisibility(View.INVISIBLE);
-                endTimeText.setText(temporaryTask.getEndTime().toString());
+                endTimeText.setText(temporaryTask.getEndTimeFormated());
                 subText.setVisibility(View.INVISIBLE);
 
                 break;
@@ -358,7 +358,7 @@ public class CustomDialogBuilder {
                 RepeatTask repeatTask = (RepeatTask) finalTask;
                 repeatTimeText.setVisibility(View.VISIBLE);
                 strideText.setVisibility(View.VISIBLE);
-                endTimeText.setText(repeatTask.getEndTime().toString());
+                endTimeText.setText(repeatTask.getEndTimeFormated());
                 repeatTimeText.setText(String.valueOf(repeatTask.getRepeatTime()));
                 strideText.setText(String.valueOf(repeatTask.getStride()));
                 subText.setVisibility(View.INVISIBLE);
@@ -370,7 +370,7 @@ public class CustomDialogBuilder {
                 LongTermTask longTermTask = (LongTermTask) finalTask;
                 repeatTimeText.setVisibility(View.INVISIBLE);
                 strideText.setVisibility(View.INVISIBLE);
-                endTimeText.setText(longTermTask.getEndTime().toString());
+                endTimeText.setText(longTermTask.getEndTimeFormated());
                 subText.setVisibility(View.VISIBLE);
 
                 break;

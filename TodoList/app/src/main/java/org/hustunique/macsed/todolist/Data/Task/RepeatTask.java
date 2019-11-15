@@ -1,5 +1,6 @@
 package org.hustunique.macsed.todolist.Data.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RepeatTask extends Task {
@@ -15,6 +16,11 @@ public class RepeatTask extends Task {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public String getEndTimeFormated(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(endTime);
     }
 
     public int getRepeatTime() {

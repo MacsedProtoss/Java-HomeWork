@@ -1,5 +1,6 @@
 package org.hustunique.macsed.todolist.Data.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,11 @@ public class LongTermTask extends Task {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public String getEndTimeFormated(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(endTime);
     }
 
     public LongTermTask getParentTask() {
